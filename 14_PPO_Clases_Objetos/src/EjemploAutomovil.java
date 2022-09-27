@@ -8,19 +8,19 @@ public class EjemploAutomovil {
         Automovil subaru=new Automovil("Subaru","Impreza");//el operador new crea la instancia, la inicializa y guarda el objeto en la memoria, y guarda la referencia de la variable hacia el objeto
 
         //los atributos fabricante y modelo ya han sido implementados gracias al constructor
-        subaru.setColor("Blanco");
+        subaru.setColor(ColorEnum.BLANCO);
         subaru.setCilindrada(2.0);
         System.out.println(subaru.getFabricante()+"\n"+subaru.getModelo()+"\n"+subaru.getColor()+"\n"+subaru.getCilindrada());
 
         //creamos un objeto diferente de la clase automovil
-        Automovil mazda= new Automovil ("Mazda","BT-50","Rojo",3.0);
+        Automovil mazda= new Automovil("Mazda","BT-50",ColorEnum.ROJO,3.0);
         System.out.println(mazda.getFabricante()+"\n"+mazda.getModelo()+"\n"+mazda.getColor()+"\n"+mazda.getCilindrada());
 
-        Automovil nissan=new Automovil("Nissan","Qhasqai","azul",5.0,80);
+        Automovil nissan=new Automovil("Nissan","Qhasqai",ColorEnum.AZUL,5.0,80);
         System.out.println(nissan.getFabricante()+"\n"+nissan.getModelo()+"\n"+nissan.getColor()+"\n"+nissan.getCilindrada());
 
         //Todos los objetos son distintos por muy parecido que sea
-        Automovil nissan2=new Automovil("Nissan","Qhasqai","azul",5.0,80);
+        Automovil nissan2=new Automovil("Nissan","Qhasqai",ColorEnum.AMARILLO,5.0,80);
         System.out.println("nissan ==nissan2?= "+(nissan==nissan2));
         System.out.println("nissan.equals(nissan2)?= "+(nissan.equals(nissan2)));
 

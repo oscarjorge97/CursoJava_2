@@ -4,18 +4,20 @@ public class Automovil {
     private static int ultimoId;
     private String fabricante;
     private String modelo;
-    private String color;
+    private ColorEnum color=ColorEnum.GRIS;
     private double cilindrada;
     private int capacidadEstanque=40;
     private static int capacidadEstanqueEstatico=30;
-    private static String colorPatente="Naranja";
+    private static ColorEnum colorPatente=ColorEnum.NARANJA;
     public static final int VELOCIDAD_MAX_CARRETERA=120;
     public final static int VELOCIDAD_MAX_CIUDAD=60;
-    public static final String COLOR_ROJO="Rojo";
+
+    private TipoEnum tipo;
+    /*public static final String COLOR_ROJO="Rojo";
     public static final String COLOR_AMARILLO="Amarillo";
     public static final String COLOR_AZUL="Azul";
     public static final String COLOR_BLANCO="Blanco";
-    public static final String COLOR_GRIS="Gris oscuro";
+    public static final String COLOR_GRIS="Gris oscuro";*/
 
     //Constructor,  Cuando se crea un constructor por defecto con parametros desaparece el vacío por defecto
     //optimizamos los constructores con menos lineas de codigo usando el this();
@@ -25,16 +27,16 @@ public class Automovil {
     }
 
 
-    public Automovil(String fabricante, String modelo, String color, double cilindrada, int capacidadEstanque) {
+    public Automovil(String fabricante, String modelo, ColorEnum color, double cilindrada, int capacidadEstanque) {
         this(fabricante, modelo, color, cilindrada);
         this.capacidadEstanque = capacidadEstanque;
     }
 
-    public Automovil(String fabricante, String modelo, String color, double cilindrada) {
+    public Automovil(String fabricante, String modelo, ColorEnum color, double cilindrada) {
         this(fabricante,modelo,color);
         this.cilindrada = cilindrada;
     }
-    public Automovil(String fabricante, String modelo, String color) {
+    public Automovil(String fabricante, String modelo, ColorEnum color) {
         this(fabricante,modelo);
         this.color = color;
     }
@@ -66,11 +68,11 @@ public class Automovil {
         Automovil.capacidadEstanqueEstatico = capacidadEstanqueEstatico;
     }
 
-    public static String getColorPatente() {
+    public static ColorEnum getColorPatente() {
         return colorPatente;
     }
 
-    public static void setColorPatente(String colorPatente) {
+    public static void setColorPatente(ColorEnum colorPatente) {
         Automovil.colorPatente = colorPatente;
     }
 
@@ -90,11 +92,11 @@ public class Automovil {
         this.modelo = modelo;
     }
 
-    public String getColor() {
+    public ColorEnum getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(ColorEnum color) {
         this.color = color;
     }
 
@@ -114,6 +116,13 @@ public class Automovil {
         this.capacidadEstanque = capacidadEstanque;
     }
 
+    public TipoEnum getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoEnum tipo) {
+        this.tipo = tipo;
+    }
 
     //metodos o funciones
     //Cada vez que quiero acceder a un metodo o atributo propia de la misma clase utilizo el this.
@@ -122,9 +131,10 @@ public class Automovil {
         sb.append("auto.id = "+this.id);
         sb.append("\n auto.fabricante = " + this.fabricante);
         sb.append("\n auto.modelo = " + this.modelo);
+        sb.append("\n auto,tipo = "+getTipo().getDescripcion());
         sb.append("\n auto.color = " + this.color);
         sb.append("\n auto.cilindrada = " + this.cilindrada);
-        sb.append("\n auto.patenteColor= "+ Automovil.colorPatente);
+        sb.append("\n auto.patenteColor= "+ colorPatente);
         return sb.toString();
 
     }
