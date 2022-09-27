@@ -4,12 +4,13 @@ public class EjemploAutomovilEnum {
         Automovil subaru=new Automovil("Subaru","Impreza");
         //los atributos fabricante y modelo ya han sido implementados gracias al constructor
         subaru.setColor(ColorEnum.BLANCO);
-        subaru.setCilindrada(2.0);
+        subaru.setMotor(new Motor(2.0,TipoMotor.BENCINA));
+        subaru.setEstanque(new Estanque());
         subaru.setTipo(TipoEnum.HATCHBACK);
         System.out.println("Velocidad máxima carretera: "+ Automovil.VELOCIDAD_MAX_CARRETERA);
         System.out.println("Velocidad máxima ciudad: "+ Automovil.VELOCIDAD_MAX_CIUDAD);
 
-        Automovil mazda= new Automovil("Mazda","BT-50", ColorEnum.ROJO,3.0);
+        Automovil mazda= new Automovil("Mazda","BT-50", ColorEnum.ROJO,new Motor(3.0,TipoMotor.DIESEL));
         mazda.setTipo(TipoEnum.PICKUP);
 
 

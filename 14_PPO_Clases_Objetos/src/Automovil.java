@@ -5,8 +5,10 @@ public class Automovil {
     private String fabricante;
     private String modelo;
     private ColorEnum color=ColorEnum.GRIS;
-    private double cilindrada;
-    private int capacidadEstanque=40;
+    private Motor motor;
+    private  Estanque estanque;
+    private Persona persona;
+    private Rueda [] ruedas;    //array porque tiene 4, 5 o 6 ruedas etc
     private static int capacidadEstanqueEstatico=30;
     private static ColorEnum colorPatente=ColorEnum.NARANJA;
     public static final int VELOCIDAD_MAX_CARRETERA=120;
@@ -25,16 +27,27 @@ public class Automovil {
 
         this.id=++ultimoId;
     }
-
-
-    public Automovil(String fabricante, String modelo, ColorEnum color, double cilindrada, int capacidadEstanque) {
-        this(fabricante, modelo, color, cilindrada);
-        this.capacidadEstanque = capacidadEstanque;
+    //Constructores
+    public Automovil(String fabricante, String modelo, ColorEnum color, Motor motor, Estanque estanque, Persona persona, Rueda[] ruedas) {
+        this(fabricante,modelo,color,motor,estanque);
+        this.persona = persona;
+        this.ruedas = ruedas;
     }
 
-    public Automovil(String fabricante, String modelo, ColorEnum color, double cilindrada) {
+    public Automovil(String fabricante, String modelo, ColorEnum color, Motor motor, Estanque estanque, Persona persona) {
+        this(fabricante, modelo, color, motor,estanque);
+        this.persona = persona;
+    }
+
+
+    public Automovil(String fabricante, String modelo, ColorEnum color, Motor motor, Estanque estanque) {
+        this(fabricante, modelo, color, motor);
+        this.estanque = estanque;
+    }
+
+    public Automovil(String fabricante, String modelo, ColorEnum color, Motor motor) {
         this(fabricante,modelo,color);
-        this.cilindrada = cilindrada;
+        this.motor = motor;
     }
     public Automovil(String fabricante, String modelo, ColorEnum color) {
         this(fabricante,modelo);
@@ -100,21 +113,6 @@ public class Automovil {
         this.color = color;
     }
 
-    public double getCilindrada() {
-        return cilindrada;
-    }
-
-    public void setCilindrada(double cilindrada) {
-        this.cilindrada = cilindrada;
-    }
-
-    public int getCapacidadEstanque() {
-        return capacidadEstanque;
-    }
-
-    public void setCapacidadEstanque(int capacidadEstanque) {
-        this.capacidadEstanque = capacidadEstanque;
-    }
 
     public TipoEnum getTipo() {
         return tipo;
@@ -124,18 +122,58 @@ public class Automovil {
         this.tipo = tipo;
     }
 
+
+    public Motor getMotor() {
+        return motor;
+    }
+
+    public void setMotor(Motor motor) {
+        this.motor = motor;
+    }
+
+    public Estanque getEstanque() {
+        return estanque;
+    }
+
+    public void setEstanque(Estanque estanque) {
+        this.estanque = estanque;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Rueda[] getRuedas() {
+        return ruedas;
+    }
+
+    public void setRuedas(Rueda[] ruedas) {
+        this.ruedas = ruedas;
+    }
+
     //metodos o funciones
     //Cada vez que quiero acceder a un metodo o atributo propia de la misma clase utilizo el this.
     public String verdetalle(/*aquí irian los parametros*/){
-        StringBuilder sb=new StringBuilder();
-        sb.append("auto.id = "+this.id);
-        sb.append("\n auto.fabricante = " + this.fabricante);
-        sb.append("\n auto.modelo = " + this.modelo);
-        sb.append("\n auto,tipo = "+getTipo().getDescripcion());
-        sb.append("\n auto.color = " + this.color);
-        sb.append("\n auto.cilindrada = " + this.cilindrada);
-        sb.append("\n auto.patenteColor= "+ colorPatente);
-        return sb.toString();
+        String detalle = "auto.id = " + this.id +
+                        "\n auto.fabricante = " + this.fabricante +
+                        "\n auto.modelo = " + this.modelo;
+        if (this.getTipo()!=null) {
+            detalle += "\n auto,tipo = " + getTipo().getDescripcion();
+        }
+                detalle+="\n auto.color = " + this.color +
+                        "\n auto.cilindrada = " + this.motor.getCilindrada() +
+                        "\n auto.patenteColor= " + colorPatente+
+                        "\n auto.conductor= "+ persona;
+        if (getRuedas()!=null) {
+            for (Rueda r : this.getRuedas()) {
+                detalle += "\n" + "fabricante: " + r.getFabricante() + "\t" + "aro: " + r.getAro() + "\t" + "ancho: " + r.getAro();
+            }
+        }
+        return detalle;
 
     }
     public String acelerar(int rpm){
@@ -154,14 +192,14 @@ public class Automovil {
 
     public double calcularConsumo(int km, double porcentajeGasolina){
         //kilometros entre (%de gasolina *total Litros del tanque
-        return km/(porcentajeGasolina*this.capacidadEstanque);
+        return km/(porcentajeGasolina*this.estanque.getCapacidad());
     }
 
 
     //esto es sobrecarga de metodos,mismo nombre metodo, pero disinto nombre tipo o parametros
     public double calcularConsumo(int km, int porcentajeGasolina){
         //kilometros entre (%de gasolina *total Litros del tanque
-        return km/((porcentajeGasolina/100d)*this.capacidadEstanque);
+        return km/((porcentajeGasolina/100d)*this.estanque.getCapacidad());
     }
 
 
@@ -189,13 +227,17 @@ public class Automovil {
 
     @Override
     public String toString() {
-        return "Automovil{" +
+         String toString="Automovil{" +
                 "id='" + id +'\''+
                 ", fabricante='" + fabricante + '\'' +
                 ", modelo='" + modelo + '\'' +
                 ", color='" + color + '\'' +
-                ", cilindrada='" + cilindrada +'\'' +
-                ", capacidadEstanque='" + capacidadEstanque +'\'' +
-                '}';
+                ", cilindrada='" + motor.getCilindrada() +'\'';
+                 if(this.estanque!=null){
+                     toString+=", capacidadEstanque='" + estanque.getCapacidad() +'\'' ;
+                 }
+
+                toString+='}';
+        return toString;
     }
 }
